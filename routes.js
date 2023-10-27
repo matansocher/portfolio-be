@@ -3,6 +3,17 @@ const router = express.Router();
 const commonService = require('./services/common.service');
 const telegramService = require('./services/telegram.service');
 
+router.post('/get-2fa-temp-pass-good-guys-down-bot', async (req, res, next) => {
+    try {
+        console.log(`get-2fa-temp-pass-good-guys-down-bot endpoint - start`);
+        return res.status(200).send({ success: true, temp: process.env.tempGoodGuysDownBotPassword || '' });
+    } catch (err) {
+        const errorMessage = commonService.getErrorMessage(err);
+        console.error(`get-2fa-temp-pass-good-guys-down-bot endpoint - failed process, err: ${errorMessage}`);
+        return res.status(500).send({ success: false, isPasswordCorrect: false });
+    }
+});
+
 router.post('/is-password-valid', async (req, res, next) => {
     const { password } = req.body;
     try {
